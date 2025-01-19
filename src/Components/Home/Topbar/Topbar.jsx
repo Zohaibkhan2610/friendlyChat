@@ -1,5 +1,5 @@
 import React from 'react'
-import Person1 from './../../../assets/Persons/Ahad.png'
+import Person1 from './../../../assets/Persons/me.png'
 import { IoNotifications, IoPerson, IoSearchCircleOutline } from 'react-icons/io5'
 import { MdChat } from 'react-icons/md'
 import Searchbar from './Searchbar'
