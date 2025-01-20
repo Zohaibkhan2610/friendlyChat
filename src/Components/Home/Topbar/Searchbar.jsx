@@ -39,6 +39,14 @@ function Searchbar() {
                         </button>
     )
  }
+ let BtnTwo = ({Text})=>{
+    return(
+        <button type="submit" className="text-white w-fit bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 my-2 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-greebg-green-600 mx-4">
+                        {Text}
+                        </button>
+    )
+ }
 export default Searchbar
 
 export { BtnOne };
+export { BtnTwo };

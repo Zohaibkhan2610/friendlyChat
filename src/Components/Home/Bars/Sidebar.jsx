@@ -7,11 +7,12 @@ import { BsBookmarkHeartFill } from 'react-icons/bs'
 import { PiSealQuestionFill } from 'react-icons/pi'
 import { BtnOne } from '../Topbar/Searchbar'
 import Person2 from './../../../assets/Persons/Saqib.png'
+import DummyData from './Feed/DummyData'
 
 function Sidebar() {
 
   return (
-    <div className='sidebar mt-2 flex-[3.3] h-cal-custom overflow-y-scroll scrollBeuti'>
+    <div className='sidebar mt-2 flex-[2] h-cal-custom overflow-y-scroll scrollBeuti'>
       <div className="sidebarwrapper inline-flex flex-col p-[20px]">
         <ul className='inline-flex flex-col p-0 m-0 items-start'>
           <SidebarListIcon LiICons={MdRssFeed} LiText='Feed'/>
@@ -27,20 +28,10 @@ function Sidebar() {
         <BtnOne Text='Show more'/>
         <hr className='h-[2px] my-[20px]'/>
           <ul className="p-0 m-0 inline-flex flex-col items-start">
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
-           <FriendPic Person={Person2} Text='Saqib'/>
+
+            
+           {FriendPic}
+
           </ul>
       </div>
     </div>
@@ -59,11 +50,11 @@ let SidebarListIcon = ({LiICons,LiText})=>{
   )
 }
 
-let FriendPic = ({Person,Text})=>{
-  return(
+let FriendPic = DummyData.map((p) => {
+  return (
     <li className="inline-flex items-center mb-[15px]">
-    <img className='h-[32px] w-[32px] rounded-full object-cover mr-[15px]' src={Person} alt="" />
-    <span>{Text}</span>
+    <img className='h-[32px] w-[32px] rounded-full object-cover mr-[15px]' src={Person2} alt="" />
+    <span>{p.name}</span>
   </li>
   )
-}
+})
