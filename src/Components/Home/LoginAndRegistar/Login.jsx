@@ -1,7 +1,65 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 
 function LoginPage() {
+  let [user, setUser] = useState({
+    UserName: "",
+    Password: "",
+});
+let navigate = useNavigate();
+// State to hold fetched user data
+let [userExists, setUserExists] = useState([]);
+// State to hold matched user data
+let [matchedUser, setMatchedUser] = useState(null);
+
+// Fetch data from Firebase on component mount
+useEffect(() => {
+    fetch('https://myreacttest-32b02-default-rtdb.firebaseio.com/UserForm.json')
+        .then(res => res.json())
+        .then((data) => {
+            if (data) {
+                const formattedData = Object.entries(data).map(([key, value]) => ({
+                    id: key,
+                    ...value,
+                }));
+                setUserExists(formattedData);
+            } else {
+                setUserExists([]);
+            }
+        });
+}, []);
+
+// Handle input changes
+let onChange = (e) => {
+    setUser({
+        ...user,
+        [e.target.name]: e.target.value,
+    });
+};
+
+// Handle form submission
+let onSubmit = (e) => {
+    e.preventDefault();
+
+    // Ensure all fields are filled
+    if (user.UserName === "" || user.Email === "" || user.Password === "") {
+        alert("Please fill all the fields");
+    } else {
+        // Find the user based on input
+        const matchingUser = userExists.find((item) =>
+            (item.UserName.toLocaleLowerCase() === user.UserName.toLocaleLowerCase() &&
+            item.Password === user.Password
+        ));
+
+        if (!matchingUser) {
+            alert("User does not exist or credentials are incorrect");
+            setMatchedUser(null);
+        } else {
+            setMatchedUser(matchingUser); // Store matched user data
+            navigate("/Home");
+        }
+    }
+};
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-4xl flex bg-white shadow-lg rounded-lg overflow-hidden">
@@ -14,24 +72,25 @@ function LoginPage() {
           <p className="text-gray-600 mb-6 text-center">
             Please login to your account
           </p>
-          <form>
+          <form onSubmit={onSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                 Username
               </label>
               <input
-                id="username"
+               value={user.UserName} onChange={onChange} name="UserName" id="UserName"
                 type="text"
                 placeholder="Enter your username"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Password">
                 Password
               </label>
               <input
-                id="password"
+           value={user.Password} onChange={onChange} name="Password" id="Password"
+
                 type="password"
                 placeholder="Enter your password"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
@@ -41,14 +100,14 @@ function LoginPage() {
               <button className="w-full bg-gradient-to-r from-orange-400 to-pink-600 text-white py-2 px-4 rounded-lg hover:opacity-90">
                 LOG IN
               </button>
-              <a href="#!" className="text-sm text-gray-500 mt-2 block">
+              <Link to="ForgetPassword" className="text-sm text-gray-500 mt-2 block">
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
           <div className="flex items-center justify-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <Link to="/Register" className="ml-2 text-sm text-pink-600 font-bold">
+            <Link to="Register" className="ml-2 text-sm text-pink-600 font-bold">
               CREATE NEW
             </Link>
           </div>

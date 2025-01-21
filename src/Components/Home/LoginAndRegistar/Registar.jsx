@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 function RegisterPage() {
     let [user, setUser] = useState({
@@ -9,13 +9,8 @@ function RegisterPage() {
         confirmPassword: "",
         Phone: ""
     });
-    
-    let onChange = (e) => {
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value
-        });
-    };
+
+    let navigate = useNavigate(); // Corrected the variable name to match the hook
     let [userExists, setUserExists] = useState([]);
 
     useEffect(() => {
@@ -26,33 +21,56 @@ function RegisterPage() {
             });
     }, []);
 
-    // for sending data to server
     let userData = () => {
+        fetch('https://myreacttest-32b02-default-rtdb.firebaseio.com/UserForm.json', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            });
     };
 
-    // when form is submitted form reset to empty value
     let resetForm = () => {
+        setUser({
+            UserName: "",
+            Email: "",
+            Password: "",
+            Address: "",
+            Phone: ""
+        });
+    };
+
+    let onChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        });
     };
 
     let onSubmit = (e) => {
         e.preventDefault();
-    
-        // if any of input is empty
+
         if (user.UserName === "" || user.Email === "" || user.Password === "" || user.Address === "" || user.Phone === "") {
             alert("Please fill all the fields");
-        } 
-        else {
-            if (userExists.some((item) => item.UserName.toLocaleLowerCase()  === user.UserName.toLocaleLowerCase() )) {
+        } else {
+            if (userExists.some((item) => item.UserName.toLocaleLowerCase() === user.UserName.toLocaleLowerCase())) {
                 alert("User already exists");
-            } else if (userExists.some((item) => item.Email.toLocaleLowerCase()  === user.Email.toLocaleLowerCase() )) {
+            } else if (userExists.some((item) => item.Email.toLocaleLowerCase() === user.Email.toLocaleLowerCase())) {
                 alert("Email already exists");
             } else {
                 userData();
                 alert("User added successfully");
                 resetForm();
+                navigate("/Home"); // Corrected the function call to use the navigate function
             }
         }
     };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full max-w-4xl flex bg-white shadow-lg rounded-lg overflow-hidden">
@@ -97,6 +115,17 @@ function RegisterPage() {
                             />
                         </div>
                         <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Phone">
+                                Phone Number
+                            </label>
+                            <input
+                                value={user.Phone} onChange={onChange} name="Phone" id="Email"
+                                type="tel"
+                                placeholder="Enter your email"
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            />
+                        </div>
+                        <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Password">
                                 Password
                             </label>
@@ -113,7 +142,7 @@ function RegisterPage() {
                             </label>
                             <input
                                 id="confirmPassword"
-                                value={user.Password} onChange={onChange} name="confirmPassword" 
+                                value={user.confirmPassword} onChange={onChange} name="confirmPassword" 
                                 type="password"
                                 placeholder="Confirm your password"
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
@@ -127,7 +156,7 @@ function RegisterPage() {
                     </form>
                     <div className="flex items-center justify-center">
                         <p className="text-sm text-gray-600">Already have an account?</p>
-                        <Link to="/Login" className="ml-2 text-sm text-pink-600 font-bold">
+                        <Link to="Login" className="ml-2 text-sm text-pink-600 font-bold">
                             LOG IN
                         </Link>
                     </div>
