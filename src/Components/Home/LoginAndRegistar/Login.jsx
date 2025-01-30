@@ -39,27 +39,28 @@ let onChange = (e) => {
 
 // Handle form submission
 let onSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Ensure all fields are filled
-    if (user.UserName === "" || user.Email === "" || user.Password === "") {
-        alert("Please fill all the fields");
-    } else {
-        // Find the user based on input
-        const matchingUser = userExists.find((item) =>
-            (item.UserName.toLocaleLowerCase() === user.UserName.toLocaleLowerCase() &&
-            item.Password === user.Password
-        ));
+  // Ensure all fields are filled
+  if (user.UserName === "" || user.Password === "") {
+      alert("Please fill all the fields");
+  } else {
+      // Find the user based on input
+      const matchingUser = userExists.find((item) =>
+          (item.UserName.toLocaleLowerCase() === user.UserName.toLocaleLowerCase() &&
+          item.Password.toLocaleLowerCase() === user.Password.toLocaleLowerCase()
+      ));
 
-        if (!matchingUser) {
-            alert("User does not exist or credentials are incorrect");
-            setMatchedUser(null);
-        } else {
-            setMatchedUser(matchingUser); // Store matched user data
-            navigate("/Home");
-        }
-    }
+      if (!matchingUser) {
+          alert("User does not exist or credentials are incorrect");
+          setMatchedUser(null);
+      } else {
+          setMatchedUser(matchingUser); // Store matched user data
+          navigate("/Home");
+      }
+  }
 };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-4xl flex bg-white shadow-lg rounded-lg overflow-hidden">

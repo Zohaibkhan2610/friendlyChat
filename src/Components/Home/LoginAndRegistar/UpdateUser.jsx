@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { MdArrowBack } from "react-icons/md";
+import { Link, useNavigate } from "react-router";
 
 function UpdateUser() {
     // User input state for finding user
@@ -131,7 +132,7 @@ function UpdateUser() {
                                     <h4 className="text-xl font-bold mt-4">We are The Lotus Team</h4>
                                 </div>
                                 <p className="text-gray-600 mb-6 text-center">
-                                    Please Type User Email of your account
+                                    Please Type UserName & Email of your account
                                 </p>
                                 <form onSubmit={handleLoginSubmit}>
                                     <div className="mb-4">
@@ -162,6 +163,8 @@ function UpdateUser() {
                                     </div>
 
                                     <button className="w-full bg-gradient-to-r from-orange-400 to-pink-600 text-white py-2 px-4 rounded-lg hover:opacity-90" type="submit">Submit</button>
+                                    <Link to="/" className="duration-500 text-4xl text-gray-600 hover:text-gray-800">
+                <MdArrowBack className="border rounded-full font-semibold text-red-600 mt-3 hover:text-white hover:bg-red-600 p-2"/></Link>
                                 </form>
                             </div>
                             <div className="w-1/2 bg-gradient-to-r from-orange-400 to-pink-600 text-white p-10 flex flex-col justify-center ">

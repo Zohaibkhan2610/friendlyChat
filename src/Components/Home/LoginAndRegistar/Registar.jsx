@@ -10,7 +10,9 @@ function RegisterPage() {
         Phone: ""
     });
 
-    let navigate = useNavigate(); // Corrected the variable name to match the hook
+    let navigate = useNavigate(); // to navigate other page
+
+
     let [userExists, setUserExists] = useState([]);
 
     useEffect(() => {
@@ -156,13 +158,13 @@ function RegisterPage() {
                     </form>
                     <div className="flex items-center justify-center">
                         <p className="text-sm text-gray-600">Already have an account?</p>
-                        <Link to="Login" className="ml-2 text-sm text-pink-600 font-bold">
+                        <Link to="/" className="ml-2 text-sm text-pink-600 font-bold">
                             LOG IN
                         </Link>
                     </div>
                 </div>
 
-                {/* Right Section */}
+                
                
             </div>
         </div>
